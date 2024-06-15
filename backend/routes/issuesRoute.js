@@ -13,6 +13,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Get a single issue by id
+router.get("/:id", async (req, res) => {
+  try {
+    const issue = await Issue.findOne({ id: req.params.id });
+    if (!issue) {
+      return res.status(404).send({ error: "Issue not found" });
+    }
+    res.send(issue);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
 // Create issue
 router.post("/", async (req, res) => {
   try {
