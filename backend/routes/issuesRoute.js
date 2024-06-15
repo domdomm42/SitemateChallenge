@@ -41,6 +41,12 @@ router.post("/", async (req, res) => {
 // Update issue
 router.put("/:id", async (req, res) => {
   try {
+    if (!req.body.title || !req.body.description) {
+      return res.status(400).send({
+        message: "Send all required fields: title, description",
+      });
+    }
+
     const updatedIssue = await Issue.findOneAndUpdate(
       { id: req.params.id },
       req.body,
