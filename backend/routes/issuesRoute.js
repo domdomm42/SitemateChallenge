@@ -38,4 +38,22 @@ router.post("/", async (req, res) => {
   }
 });
 
+// Update issue
+router.put("/:id", async (req, res) => {
+  try {
+    const updatedIssue = await Issue.findOneAndUpdate(
+      { id: req.params.id },
+      req.body,
+      { new: true }
+    );
+    if (!updatedIssue) {
+      return res.status(404).send({ error: "Issue not found" });
+    }
+    console.log("Updated:", updatedIssue);
+    res.send(updatedIssue);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
 export default router;
